@@ -9,7 +9,7 @@ TERMUX_PKG_SRCURL=git+https://gitlab.freedesktop.org/Pipetto-crypto/mesa
 TERMUX_PKG_GIT_BRANCH=wrapper-25
 TERMUX_PKG_DEPENDS="libandroid-shmem, libc++, libdrm, libx11, libxcb, libxshmfence, libwayland, vulkan-loader-generic, zlib, zstd"
 TERMUX_PKG_BUILD_DEPENDS="libandroid-shmem-static, libwayland-protocols, libxrandr, xorgproto"
-TERMUX_PKG_API_LEVEL=26
+TERMUX_PKG_API_LEVEL=28
 
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 --cmake-prefix-path $TERMUX_PREFIX
@@ -27,7 +27,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 termux_step_post_get_source() {
 	git fetch --unshallow
 	# Do not use meson wrap projects
-	#rm -rf subprojects
+	# rm -rf subprojects
 }
 
 termux_step_pre_configure() {
@@ -51,6 +51,10 @@ termux_step_pre_configure() {
 
 	fi
 	export PATH=$_WRAPPER_BIN:$PATH
+}
+
+termux_step_pre_configure() {
+	rm -rf $TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}/__pycache__
 }
 
 termux_step_post_configure() {
